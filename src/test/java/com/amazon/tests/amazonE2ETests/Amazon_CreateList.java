@@ -1,5 +1,6 @@
 package com.amazon.tests.amazonE2ETests;
 
+import com.amazon.pages.Loginpage;
 import com.amazon.tests.TestBase;
 import com.amazon.utilities.ConfigurationReader;
 import org.testng.annotations.Test;
@@ -17,8 +18,21 @@ public class Amazon_CreateList extends TestBase {
      *  Verify that the result page is displayed
      */
 
+    Loginpage loginpage;
+
     @Test
     public void TC001_ListTest() {
+        loginpage = new Loginpage();
+
+        extentLogger = report.createTest("TC001_List Test");
+
+        extentLogger.info("go to "+ConfigurationReader.get("url")+" web page");
         driver.get(ConfigurationReader.get("url"));
+
+        extentLogger.info("if there are cookies accept cookies");
+        loginpage.acceptCookies();
+
+        extentLogger.info("log in with your own valid credential");
+        loginpage.login();
     }
 }
