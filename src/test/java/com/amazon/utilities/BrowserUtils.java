@@ -11,6 +11,7 @@ import org.testng.Assert;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -39,6 +40,7 @@ public class BrowserUtils {
 
     /**
      * Switches to new window by the exact title. Returns to original window if target title not found
+     *
      * @param targetTitle
      */
     public static void switchToWindow(String targetTitle) {
@@ -113,8 +115,8 @@ public class BrowserUtils {
      * @return
      */
     public static WebElement waitForVisibility(WebElement element, int timeToWaitInSec) {
-        WebDriverWait wait = new WebDriverWait(Driver.get(), timeToWaitInSec);
-        //WebDriverWait wait = new WebDriverWait(Driver.get(), Duration.ofSeconds(20));
+        //WebDriverWait wait = new WebDriverWait(Driver.get(), timeToWaitInSec);
+        WebDriverWait wait = new WebDriverWait(Driver.get(), Duration.ofSeconds(20));
         return wait.until(ExpectedConditions.visibilityOf(element));
     }
 
@@ -126,8 +128,8 @@ public class BrowserUtils {
      * @return
      */
     public static WebElement waitForVisibility(By locator, int timeout) {
-        WebDriverWait wait = new WebDriverWait(Driver.get(), timeout);
-        //    WebDriverWait wait = new WebDriverWait(Driver.get(), Duration.ofSeconds(20));
+        //WebDriverWait wait = new WebDriverWait(Driver.get(), timeout);
+        WebDriverWait wait = new WebDriverWait(Driver.get(), Duration.ofSeconds(20));
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
@@ -139,8 +141,8 @@ public class BrowserUtils {
      * @return
      */
     public static WebElement waitForClickablility(WebElement element, int timeout) {
-        WebDriverWait wait = new WebDriverWait(Driver.get(), timeout);
-        //WebDriverWait wait = new WebDriverWait(Driver.get(), Duration.ofSeconds(20));
+        //WebDriverWait wait = new WebDriverWait(Driver.get(), timeout);
+        WebDriverWait wait = new WebDriverWait(Driver.get(), Duration.ofSeconds(20));
         return wait.until(ExpectedConditions.elementToBeClickable(element));
     }
 
@@ -152,8 +154,8 @@ public class BrowserUtils {
      * @return
      */
     public static WebElement waitForClickablility(By locator, int timeout) {
-        WebDriverWait wait = new WebDriverWait(Driver.get(), timeout);
-        //WebDriverWait wait = new WebDriverWait(Driver.get(), Duration.ofSeconds(20));
+        //WebDriverWait wait = new WebDriverWait(Driver.get(), timeout);
+        WebDriverWait wait = new WebDriverWait(Driver.get(), Duration.ofSeconds(20));
         return wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
 
@@ -169,59 +171,11 @@ public class BrowserUtils {
             }
         };
         try {
-            //WebDriverWait wait = new WebDriverWait(Driver.get(), Duration.ofSeconds(20));
-            WebDriverWait wait = new WebDriverWait(Driver.get(), timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(Driver.get(), Duration.ofSeconds(20));
+            //WebDriverWait wait = new WebDriverWait(Driver.get(), timeOutInSeconds);
             wait.until(expectation);
         } catch (Throwable error) {
             error.printStackTrace();
-        }
-    }
-
-    /**
-     * Verifies whether the element matching the provided locator is displayed on page
-     *
-     * @param by
-     * @throws AssertionError if the element matching the provided locator is not found or not displayed
-     */
-    public static void verifyElementDisplayed(By by) {
-        try {
-            Assert.assertTrue(Driver.get().findElement(by).isDisplayed(), "Element not visible: " + by);
-        } catch (NoSuchElementException e) {
-            e.printStackTrace();
-            Assert.fail("Element not found: " + by);
-
-        }
-    }
-
-    /**
-     * Verifies whether the element matching the provided locator is NOT displayed on page
-     *
-     * @param by
-     * @throws AssertionError the element matching the provided locator is displayed
-     */
-    public static void verifyElementNotDisplayed(By by) {
-        try {
-            Assert.assertFalse(Driver.get().findElement(by).isDisplayed(), "Element should not be visible: " + by);
-        } catch (NoSuchElementException e) {
-            e.printStackTrace();
-
-        }
-    }
-
-
-    /**
-     * Verifies whether the element is displayed on page
-     *
-     * @param element
-     * @throws AssertionError if the element is not found or not displayed
-     */
-    public static void verifyElementDisplayed(WebElement element) {
-        try {
-            Assert.assertTrue(element.isDisplayed(), "Element not visible: " + element);
-        } catch (NoSuchElementException e) {
-            e.printStackTrace();
-            Assert.fail("Element not found: " + element);
-
         }
     }
 
@@ -299,6 +253,7 @@ public class BrowserUtils {
 
     /**
      * Highlighs an element by changing its background and border color
+     *
      * @param element
      */
     public static void highlight(WebElement element) {
@@ -394,20 +349,25 @@ public class BrowserUtils {
     }
 
     /**
-     *  checks that an element is present on the DOM of a page. This does not
-     *    * necessarily mean that the element is visible.
+     * checks that an element is present on the DOM of a page. This does not
+     * * necessarily mean that the element is visible.
+     *
      * @param by
      * @param time
      */
     public static void waitForPresenceOfElement(By by, long time) {
-        new WebDriverWait(Driver.get(), time).until(ExpectedConditions.presenceOfElementLocated(by));
-        //WebDriverWait wait = new WebDriverWait(Driver.get(), Duration.ofSeconds(20));
+        //new WebDriverWait(Driver.get(), time).until(ExpectedConditions.presenceOfElementLocated(by));
+        WebDriverWait wait = new WebDriverWait(Driver.get(), Duration.ofSeconds(20));
         //wait.until(ExpectedConditions.presenceOfElementLocated(by));
     }
 
     public static void clearAndSendKeys(WebElement element, String text) {
         element.clear();
         element.sendKeys(text);
+    }
+
+    public static String getText(WebElement element) {
+        return element.getText();
     }
 
 }
